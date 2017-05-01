@@ -1,15 +1,16 @@
 #include <Servo.h> 
 #include <SPI.h>
 
-#define led 13
-#define servopin 2
-byte address = 0x00;
-int CS= 10;
+#define led 13          //led is connected on pin 13
+#define servopin 2      //servo is connected on pin 2
 
-Servo myservo;
+byte address = 0x00;    //address for digital pot over SPI bus
+int CS= 10;             // configure pin 10 as SPI select line
+
+Servo myservo;          
 
 void setup() {
-  // put your setup code here, to run once:
+  
 Serial.begin(9600);
 pinMode(led,OUTPUT);
 myservo.attach(servopin);
@@ -20,33 +21,27 @@ SPI.begin();
 
 void loop() {
   
-  if(Serial.available()>0)
-  {
+  if(Serial.available()>0){
     char c = Serial.read();
-    if(c == 'A')
-    {
+    if(c == 'A'){                 
       digitalWrite(led,1);
     }
-    if(c == 'B')
-    {
+    if(c == 'B'){
       digitalWrite(led,0);
     }
     
-    if(c == 'C')
-    {
+    if(c == 'C'){
      writeAngle(); 
     }
-    if(c == 'D')
-    {
+    if(c == 'D'){
      digitalPotWrite();
     }
   }
 
 }
 
-void writeAngle()
-{
-  while(!Serial.available()>0);
+void writeAngle(){
+  while(!Serial.available()>0);   //read angle value for servo 
   
   int c = Serial.read();
   myservo.write(c);
@@ -54,9 +49,8 @@ void writeAngle()
   Serial.println("Writing Servo");
 }
 
-int digitalPotWrite()
-{
-  while(!Serial.available()>0);
+int digitalPotWrite(){      
+  while(!Serial.available()> 0);    //read resistance value for digital pot
   
   int value = Serial.read();
 digitalWrite(CS, LOW);
