@@ -37,6 +37,7 @@ print(ser.name)
 time.sleep(1)
 
 for line in myfile:
+	line = line.strip()
 	line = line.upper()
 	if line.startswith('DELAY'):
 #		print line
